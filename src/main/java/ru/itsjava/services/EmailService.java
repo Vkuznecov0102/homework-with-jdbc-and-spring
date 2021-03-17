@@ -2,10 +2,12 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.Email;
 
-public interface EmailService {
-    int countEmailByAddress(String address);
+import java.util.Optional;
 
-    Email getEmailById(long id);
+public interface EmailService {
+    long countEmailByAddress(String address);
+
+    Optional<Email> getEmailById(long id);
 
     void insertEmail(Email email);
 

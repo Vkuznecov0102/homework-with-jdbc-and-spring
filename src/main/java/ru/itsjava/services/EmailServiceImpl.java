@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.itsjava.dao.EmailJdbc;
 import ru.itsjava.domains.Email;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -12,12 +14,12 @@ public class EmailServiceImpl implements EmailService {
     private final EmailJdbc emailJdbc;
 
     @Override
-    public int countEmailByAddress(String address) {
+    public long countEmailByAddress(String address) {
         return emailJdbc.countEmailByAddress(address);
     }
 
     @Override
-    public Email getEmailById(long id) {
+    public Optional<Email> getEmailById(long id) {
         return emailJdbc.getEmailById(id);
     }
 

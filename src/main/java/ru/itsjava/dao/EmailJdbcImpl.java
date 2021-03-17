@@ -1,71 +1,51 @@
 package ru.itsjava.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.domains.Email;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
+@Transactional
 public class EmailJdbcImpl implements EmailJdbc {
 
-    private final JdbcOperations jdbcOperations;
-    private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
-    public int countEmailByAddress(String address) {
-        String SELECT_QUERY = "select count(*) from email where address='" + address + "'";
-        return jdbcOperations.queryForObject(SELECT_QUERY, Integer.class);
+    public long countEmailByAddress(String address) {
+        return (Long) entityManager.createNativeQuery("select count(*) from email where address='"+address+"'").getSingleResult();
     }
 
     @Override
-    public Email getEmailById(long id) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
-        String GETBYID_QUERY = "select id,address from email where id= :id";
-        return namedParameterJdbcOperations.queryForObject(GETBYID_QUERY, params, new EmailMapper());
+    public Optional<Email> getEmailById(long id) {
+       return Optional.ofNullable(entityManager.find(Email.class,id));
     }
 
     @Override
     public void insertEmail(Email email) {
-        String INSERT_QUERY = "insert into email(address) values (?)";
-        jdbcOperations.update(INSERT_QUERY, email.getAddress());
+        this.entityManager.persist(email);
     }
 
     @Override
     public void updateEmail(Email email) {
-        String UPDATE_QUERY = "update email set address=:address where id=:id";
-        SqlParameterSource params = new MapSqlParameterSource().addValue("id", email.getId()).addValue("address", email.getAddress());
-        namedParameterJdbcOperations.update(UPDATE_QUERY, params);
+        entityManager.merge(email);
     }
 
     @Override
     public void deleteEmail(long id) {
-        String DELETE_QUERY = "delete from email where id = :id";
-        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        int status = namedParameterJdbcOperations.update(DELETE_QUERY, namedParameters);
-        if (status != 0) {
-            System.out.println("Email data deleted for ID " + id);
-        } else {
-            System.out.println("No email found with ID " + id);
-        }
+        Email email=entityManager.find(Email.class,id);
+        entityManager.remove(email);
     }
 
-    private static class EmailMapper implements RowMapper<Email> {
-
-        @Override
-        public Email mapRow(ResultSet resultSet, int i) throws SQLException {
-            return new Email(resultSet.getLong("id"),
-                    resultSet.getString("address"));
-        }
+    @Override
+    public List<Email> findAll() {
+        return entityManager.createNativeQuery("select id,address from email").getResultList();
     }
 }
