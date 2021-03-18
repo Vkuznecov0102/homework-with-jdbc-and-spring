@@ -2,10 +2,12 @@ package ru.itsjava.dao;
 
 import ru.itsjava.domains.User;
 
-public interface UserJdbc {
-    int countUserByName(String fio);
+import java.util.Optional;
 
-    User getUserById(long id);
+public interface UserJdbc {
+    long countUserByName(String fio);
+
+    Optional<User> getUserById(long id);
 
     void insertUser(User user);
 

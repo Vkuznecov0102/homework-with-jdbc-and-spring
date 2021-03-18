@@ -15,7 +15,6 @@ public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(mappedBy = "pet_id")
     private long id;
 
     @Column(name="type")

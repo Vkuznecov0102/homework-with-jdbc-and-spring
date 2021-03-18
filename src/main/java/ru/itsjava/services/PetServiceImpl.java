@@ -2,22 +2,26 @@ package ru.itsjava.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.dao.PetJdbc;
 import ru.itsjava.domains.Pet;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class PetServiceImpl implements PetService {
 
     private final PetJdbc petJdbc;
 
     @Override
-    public int countPetByType(String type) {
+    public long countPetByType(String type) {
         return petJdbc.countPetByType(type);
     }
 
     @Override
-    public Pet getPetById(long id) {
+    public Optional<Pet> getPetById(long id) {
         return petJdbc.getPetById(id);
     }
 

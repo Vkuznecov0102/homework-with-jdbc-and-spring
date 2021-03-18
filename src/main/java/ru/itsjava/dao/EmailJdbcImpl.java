@@ -16,11 +16,11 @@ import java.util.Optional;
 public class EmailJdbcImpl implements EmailJdbc {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public long countEmailByAddress(String address) {
-        return (Long) entityManager.createNativeQuery("select count(*) from email where address='"+address+"'").getSingleResult();
+        return (Long) entityManager.createNativeQuery("select count(*) from Email e where address='"+address+"'").getSingleResult();
     }
 
     @Override

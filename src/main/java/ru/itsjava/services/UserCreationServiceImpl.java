@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.h2.tools.Console;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.domains.Email;
 import ru.itsjava.domains.Pet;
 import ru.itsjava.domains.User;
@@ -15,15 +15,13 @@ import java.util.Scanner;
 @AllArgsConstructor
 @NoArgsConstructor
 @Service
+@Transactional
 public class UserCreationServiceImpl implements UserCreationService {
 
-    @Autowired
     private EmailService emailService;
 
-    @Autowired
     private PetService petService;
 
-    @Autowired
     private UserService userService;
 
     @SneakyThrows

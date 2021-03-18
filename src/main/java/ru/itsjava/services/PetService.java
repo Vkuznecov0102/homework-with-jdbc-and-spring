@@ -2,10 +2,12 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.Pet;
 
-public interface PetService {
-    int countPetByType(String type);
+import java.util.Optional;
 
-    Pet getPetById(long id);
+public interface PetService {
+    long countPetByType(String type);
+
+    Optional<Pet> getPetById(long id);
 
     void insertPet(Pet pet);
 

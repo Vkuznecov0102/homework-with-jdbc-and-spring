@@ -15,7 +15,6 @@ public class Email {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(mappedBy = "email_id")
     private long id;
 
     @Column(name="address")

@@ -2,10 +2,12 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.User;
 
-public interface UserService {
-    int countUserByName(String fio);
+import java.util.Optional;
 
-    User getUserById(long id);
+public interface UserService {
+    long countUserByName(String fio);
+
+    Optional<User> getUserById(long id);
 
     void insertUser(User user);
 

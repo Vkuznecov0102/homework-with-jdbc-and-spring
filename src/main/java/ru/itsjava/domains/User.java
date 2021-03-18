@@ -21,12 +21,11 @@ public class User {
     private String fio;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email_id", referencedColumnName = "id")
+    @JoinColumn(name="email_id", referencedColumnName = "id")
     private Email mail;
 
-
-    @OneToOne
-    @JoinColumn(name="pet_id",referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="pet_id", referencedColumnName = "id")
     private Pet pet;
 
     public User(String fio, Email mail, Pet pet) {

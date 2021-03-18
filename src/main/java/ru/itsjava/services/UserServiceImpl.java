@@ -2,22 +2,26 @@ package ru.itsjava.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.dao.UserJdbc;
 import ru.itsjava.domains.User;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserJdbc userJdbc;
 
     @Override
-    public int countUserByName(String fio) {
+    public long countUserByName(String fio) {
         return userJdbc.countUserByName(fio);
     }
 
     @Override
-    public User getUserById(long id) {
+    public Optional<User> getUserById(long id) {
         return userJdbc.getUserById(id);
     }
 
