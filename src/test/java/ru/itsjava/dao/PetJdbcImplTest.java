@@ -20,12 +20,6 @@ public class PetJdbcImplTest {
         Pet pet=new Pet(1L,"Капибара","Чучундра");
         petJdbc.insertPet(pet);
         Assertions.assertEquals(pet,petJdbc.getPetById(1L));
-//        Email mail=new Email(1L,"alexandro@gmail.com");
-//        emailJdbc.insertEmail(mail);
-//        Assertions.assertEquals(mail,emailJdbc.getEmailById(1L));
-//        User user=new User(1L,"Марадона ДА",new Email(mail.getId(), mail.getAddress()),new Pet(pet.getId(),pet.getType(),pet.getName()));
-//        userJdbc.insertUser(user);
-//        Assertions.assertEquals(user,userJdbc.getUserById(1L));
     }
 
     @Test
