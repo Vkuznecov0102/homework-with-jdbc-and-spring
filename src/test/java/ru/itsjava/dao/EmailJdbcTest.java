@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.itsjava.domains.Email;
+
+import java.math.BigInteger;
+import java.util.Optional;
 
 @DataJpaTest
 @Import(EmailJdbcImpl.class)
@@ -17,29 +19,35 @@ public class EmailJdbcTest {
 
     @Test
     public void shouldHaveCorrectInsert(){
-        Email email=new Email(1L,"alexandro@protonmail.com");
-        emailJdbc.insertEmail(email);
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
         Assertions.assertEquals(email,emailJdbc.getEmailById(1L));
+
     }
 
     @Test
     public void shouldHaveCorrectUpdate(){
-        Email email=new Email(1L,"alexandro@protonmail.com");
-        emailJdbc.insertEmail(email);
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
         Assertions.assertEquals(email,emailJdbc.getEmailById(1L));
-        email.setAddress("alexandro@mail.ru");
-        emailJdbc.updateEmail(email);
-        Assertions.assertEquals(emailJdbc.countEmailByAddress("alexandro@protonmail.com"),0);
-        Assertions.assertEquals(emailJdbc.countEmailByAddress("alexandro@mail.ru"),1);
+        objMail.setAddress("alexandro@gmail.com");
+        emailJdbc.updateEmail(objMail);
+        BigInteger zero=new BigInteger("0");
+        BigInteger one= new BigInteger("1");
+        Assertions.assertEquals(emailJdbc.countEmailByAddress("alexandro@protonmail.com"), zero);
+        Assertions.assertEquals(emailJdbc.countEmailByAddress("alexandro@gmail.com"),one);
     }
 
     @Test
     public void shouldHaveCorrectDelete(){
-        Email email=new Email(1L,"alexandro@protonmail.com");
-        emailJdbc.insertEmail(email);
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
         Assertions.assertEquals(email,emailJdbc.getEmailById(1L));
         Assertions.assertNotNull(emailJdbc.getEmailById(1L));
         emailJdbc.deleteEmail(1L);
-        Assertions.assertThrows(EmptyResultDataAccessException.class,()-> emailJdbc.getEmailById(1L));
+        Assertions.assertEquals(emailJdbc.getEmailById(1L),Optional.empty());
     }
 }

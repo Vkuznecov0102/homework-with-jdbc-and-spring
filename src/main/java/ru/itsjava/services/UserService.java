@@ -2,10 +2,11 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.User;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 public interface UserService {
-    long countUserByName(String fio);
+    BigInteger countUserByName(String fio);
 
     Optional<User> getUserById(long id);
 

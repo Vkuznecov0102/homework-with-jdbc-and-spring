@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.dao.EmailJdbc;
 import ru.itsjava.domains.Email;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class EmailServiceImpl implements EmailService {
     private final EmailJdbc emailJdbc;
 
     @Override
-    public long countEmailByAddress(String address) {
+    public BigInteger countEmailByAddress(String address) {
         return emailJdbc.countEmailByAddress(address);
     }
 

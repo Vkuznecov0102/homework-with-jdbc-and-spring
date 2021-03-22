@@ -2,10 +2,11 @@ package ru.itsjava.dao;
 
 import ru.itsjava.domains.Pet;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 public interface PetJdbc {
-    long countPetByType(String type);
+    BigInteger countPetByType(String type);
 
     Optional<Pet> getPetById(long id);
 

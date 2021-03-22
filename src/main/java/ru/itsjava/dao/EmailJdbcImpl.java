@@ -7,6 +7,7 @@ import ru.itsjava.domains.Email;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,8 @@ public class EmailJdbcImpl implements EmailJdbc {
     private final EntityManager entityManager;
 
     @Override
-    public long countEmailByAddress(String address) {
-        return (Long) entityManager.createNativeQuery("select count(*) from Email e where address='"+address+"'").getSingleResult();
+    public BigInteger countEmailByAddress(String address) {
+        return (BigInteger) entityManager.createNativeQuery("select count(*) from Email e where address='"+address+"'").getSingleResult();
     }
 
     @Override
@@ -30,7 +31,10 @@ public class EmailJdbcImpl implements EmailJdbc {
 
     @Override
     public void insertEmail(Email email) {
-        this.entityManager.persist(email);
+        if(email.getId() == 0L){
+            entityManager.persist(email);
+        }
+        entityManager.merge(email);
     }
 
     @Override
@@ -46,6 +50,6 @@ public class EmailJdbcImpl implements EmailJdbc {
 
     @Override
     public List<Email> findAll() {
-        return entityManager.createNativeQuery("select id,address from email").getResultList();
+        return entityManager.createNativeQuery("select e.id,e.address from Email e").getResultList();
     }
 }

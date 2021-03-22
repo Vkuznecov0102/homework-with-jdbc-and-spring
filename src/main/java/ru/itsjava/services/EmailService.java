@@ -2,10 +2,11 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.Email;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 public interface EmailService {
-    long countEmailByAddress(String address);
+    BigInteger countEmailByAddress(String address);
 
     Optional<Email> getEmailById(long id);
 

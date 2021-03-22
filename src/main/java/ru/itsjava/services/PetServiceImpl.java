@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.dao.PetJdbc;
 import ru.itsjava.domains.Pet;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class PetServiceImpl implements PetService {
     private final PetJdbc petJdbc;
 
     @Override
-    public long countPetByType(String type) {
+    public BigInteger countPetByType(String type) {
         return petJdbc.countPetByType(type);
     }
 

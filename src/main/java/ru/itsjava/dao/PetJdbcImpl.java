@@ -7,6 +7,7 @@ import ru.itsjava.domains.Pet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,8 +19,8 @@ public class PetJdbcImpl implements PetJdbc {
     private final EntityManager entityManager;
 
     @Override
-    public long countPetByType(String type) {
-        return (Long) entityManager.createNativeQuery("select count(*) from Pet p where type='"+type+"'").getSingleResult();
+    public BigInteger countPetByType(String type) {
+        return (BigInteger) entityManager.createNativeQuery("select count(*) from Pet p where type='"+type+"'").getSingleResult();
     }
 
     @Override
@@ -29,7 +30,10 @@ public class PetJdbcImpl implements PetJdbc {
 
     @Override
     public void insertPet(Pet pet) {
-        this.entityManager.persist(pet);
+        if(pet.getId()==0L){
+            entityManager.persist(pet);
+        }
+        entityManager.merge(pet);
     }
 
     @Override

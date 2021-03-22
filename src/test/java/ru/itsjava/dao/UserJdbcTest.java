@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.itsjava.domains.Email;
 import ru.itsjava.domains.Pet;
 import ru.itsjava.domains.User;
+
+import java.math.BigInteger;
+import java.util.Optional;
 
 @DataJpaTest
 @Import({UserJdbcImpl.class, PetJdbcImpl.class, EmailJdbcImpl.class})
@@ -25,43 +27,62 @@ public class UserJdbcTest {
 
     @Test
     public void shouldHaveCorrectInsert() {
-        Pet pet = new Pet(1L, "Капибара", "Чучундра");
-        petJdbc.insertPet(pet);
-        Assertions.assertEquals(pet, petJdbc.getPetById(1L));
-        Email mail = new Email(1L, "leoleo@gmail.com");
-        emailJdbc.insertEmail(mail);
-        Assertions.assertEquals(mail, emailJdbc.getEmailById(1L));
-        User user = new User(1L, "Измайлов ЛО", new Email(mail.getId(), mail.getAddress()), new Pet(pet.getId(), pet.getType(), pet.getName()));
-        userJdbc.insertUser(user);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
+        Assertions.assertEquals(pet,petJdbc.getPetById(1L));
+
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
+        Assertions.assertEquals(email,emailJdbc.getEmailById(1L));
+
+        Optional<User> user = Optional.of(new User(1L, "Измайлов ЛО", new Email(objMail.getId(), objMail.getAddress()), new Pet(objPet.getId(), objPet.getType(), objPet.getName())));
+        User objUser=user.get();
+        userJdbc.insertUser(objUser);
         Assertions.assertEquals(user, userJdbc.getUserById(1L));
     }
 
     @Test
     public void shouldHaveCorrectUpdate() {
-        Pet pet = new Pet(1L, "Капибара", "Чучундра");
-        petJdbc.insertPet(pet);
-        Email mail = new Email(1L, "leoleo@gmail.com");
-        emailJdbc.insertEmail(mail);
-        User user = new User(1L, "Измайлов ЛО", new Email(mail.getId(), mail.getAddress()), new Pet(pet.getId(), pet.getType(), pet.getName()));
-        userJdbc.insertUser(user);
-        user.setFio("Александров ЛО");
-        userJdbc.updateUser(user);
-        Assertions.assertEquals(userJdbc.countUserByName("Александров ЛО"), 1);
-        Assertions.assertEquals(userJdbc.countUserByName("Измайлов ЛО"), 0);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
+
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
+
+        Optional<User> user = Optional.of(new User(1L, "Измайлов ЛО", new Email(objMail.getId(), objMail.getAddress()), new Pet(objPet.getId(), objPet.getType(), objPet.getName())));
+        User objUser=user.get();
+        userJdbc.insertUser(objUser);
+
+        objUser.setFio("Александров ЛО");
+        userJdbc.updateUser(objUser);
+        BigInteger zero=new BigInteger("0");
+        BigInteger one= new BigInteger("1");
+        Assertions.assertEquals(userJdbc.countUserByName("Александров ЛО"), one);
+        Assertions.assertEquals(userJdbc.countUserByName("Измайлов ЛО"), zero);
 
     }
 
     @Test
     public void shouldHaveCorrectDelete() {
-        Pet pet = new Pet(1L, "Капибара", "Чучундра");
-        petJdbc.insertPet(pet);
-        Email mail = new Email(1L, "leoleo@gmail.com");
-        emailJdbc.insertEmail(mail);
-        User user = new User(1L, "Измайлов ЛО", new Email(mail.getId(), mail.getAddress()), new Pet(pet.getId(), pet.getType(), pet.getName()));
-        userJdbc.insertUser(user);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
+
+        Optional<Email> email= Optional.of(new Email(1L, "alexandro@protonmail.com"));
+        Email objMail=email.get();
+        emailJdbc.insertEmail(objMail);
+
+        Optional<User> user = Optional.of(new User(1L, "Измайлов ЛО", new Email(objMail.getId(), objMail.getAddress()), new Pet(objPet.getId(), objPet.getType(), objPet.getName())));
+        User objUser=user.get();
+        userJdbc.insertUser(objUser);
+
         Assertions.assertEquals(user, userJdbc.getUserById(1L));
         Assertions.assertNotNull(userJdbc.getUserById(1L));
         userJdbc.deleteUser(1L);
-        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> userJdbc.getUserById(1L));
+        Assertions.assertEquals(userJdbc.getUserById(1L),Optional.empty());
     }
 }

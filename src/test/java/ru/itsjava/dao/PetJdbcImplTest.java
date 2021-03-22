@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.itsjava.domains.Pet;
+
+import java.math.BigInteger;
+import java.util.Optional;
 
 @DataJpaTest
 @Import(PetJdbcImpl.class)
@@ -17,35 +19,34 @@ public class PetJdbcImplTest {
 
     @Test
     public void shouldHaveCorrectInsert(){
-        Pet pet=new Pet(1L,"Капибара","Чучундра");
-        petJdbc.insertPet(pet);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
         Assertions.assertEquals(pet,petJdbc.getPetById(1L));
-//        Email mail=new Email(1L,"alexandro@gmail.com");
-//        emailJdbc.insertEmail(mail);
-//        Assertions.assertEquals(mail,emailJdbc.getEmailById(1L));
-//        User user=new User(1L,"Марадона ДА",new Email(mail.getId(), mail.getAddress()),new Pet(pet.getId(),pet.getType(),pet.getName()));
-//        userJdbc.insertUser(user);
-//        Assertions.assertEquals(user,userJdbc.getUserById(1L));
     }
 
     @Test
     public void shouldHaveCorrectUpdate(){
-        Pet pet=new Pet(1L,"Капибара","Чучундра");
-        petJdbc.insertPet(pet);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
         Assertions.assertEquals(pet,petJdbc.getPetById(1L));
-        pet.setType("rat");
-        petJdbc.updatePet(pet);
-        Assertions.assertEquals(petJdbc.countPetByType("rat"),1);
-        Assertions.assertEquals(petJdbc.countPetByType("Капибара"),0);
+        objPet.setType("rat");
+        petJdbc.updatePet(objPet);
+        BigInteger zero=new BigInteger("0");
+        BigInteger one= new BigInteger("1");
+        Assertions.assertEquals(petJdbc.countPetByType("rat"),one);
+        Assertions.assertEquals(petJdbc.countPetByType("Капибара"),zero);
     }
 
     @Test
     public void shouldHaveCorrectDelete(){
-        Pet pet=new Pet(1L,"Капибара","Чучундра");
-        petJdbc.insertPet(pet);
+        Optional<Pet> pet=Optional.of(new Pet(1L,"Капибара","Чучундра"));
+        Pet objPet=pet.get();
+        petJdbc.insertPet(objPet);
         Assertions.assertEquals(pet,petJdbc.getPetById(1L));
         Assertions.assertNotNull(petJdbc.getPetById(1L));
         petJdbc.deletePet(1L);
-        Assertions.assertThrows(EmptyResultDataAccessException.class,()-> petJdbc.getPetById(1L));
+        Assertions.assertEquals(petJdbc.getPetById(1L),Optional.empty());
     }
 }

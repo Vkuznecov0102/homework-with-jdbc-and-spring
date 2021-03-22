@@ -7,6 +7,7 @@ import ru.itsjava.domains.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,8 +19,8 @@ public class UserJdbcImpl implements UserJdbc {
     private final EntityManager entityManager;
 
     @Override
-    public long countUserByName(String fio) {
-        return (Long) entityManager.createNativeQuery("select count(*) from User u where type='"+fio+"'").getSingleResult();
+    public BigInteger countUserByName(String fio) {
+        return (BigInteger) entityManager.createNativeQuery("select count(*) from User u where fio='"+fio+"'").getSingleResult();
     }
 
     @Override
@@ -29,7 +30,10 @@ public class UserJdbcImpl implements UserJdbc {
 
     @Override
     public void insertUser(User user) {
-        this.entityManager.persist(user);
+        if(user.getId()==0L){
+            entityManager.persist(user);
+        }
+        entityManager.merge(user);
     }
 
     @Override
