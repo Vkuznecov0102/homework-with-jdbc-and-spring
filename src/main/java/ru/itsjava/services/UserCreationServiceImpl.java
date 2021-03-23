@@ -1,7 +1,6 @@
 package ru.itsjava.services;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.h2.tools.Console;
 import org.springframework.stereotype.Service;
@@ -12,17 +11,16 @@ import ru.itsjava.domains.User;
 
 import java.util.Scanner;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class UserCreationServiceImpl implements UserCreationService {
 
-    private EmailService emailService;
+    private final EmailService emailService;
 
-    private PetService petService;
+    private final PetService petService;
 
-    private UserService userService;
+    private final UserService userService;
 
     @SneakyThrows
     @Override
@@ -35,7 +33,7 @@ public class UserCreationServiceImpl implements UserCreationService {
 
             String address = scanner.nextLine();
             Email email = new Email(address);
-            emailService.insertEmail(new Email(address));
+            emailService.insertEmail(email);
 
             System.out.println("Введите вид животного пользователя");
             Pet pet = new Pet();
