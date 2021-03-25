@@ -2,11 +2,11 @@ package ru.itsjava.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Pet {
     private long id;
     private String type;
