@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserJdbc userJdbc;

@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class PetServiceImpl implements PetService {
 
     private final PetJdbc petJdbc;

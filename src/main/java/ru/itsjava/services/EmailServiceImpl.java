@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class EmailServiceImpl implements EmailService {
 
     private final EmailJdbc emailJdbc;

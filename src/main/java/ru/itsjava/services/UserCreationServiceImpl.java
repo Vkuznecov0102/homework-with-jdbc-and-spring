@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class UserCreationServiceImpl implements UserCreationService {
 
     private final EmailService emailService;
