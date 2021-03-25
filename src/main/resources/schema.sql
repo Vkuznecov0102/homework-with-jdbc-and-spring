@@ -18,6 +18,7 @@ type varchar(255),
 name varchar(255)
 );
 
+
 alter table user add foreign key(email_id) references email(id);
 
 alter table user add foreign key(pet_id) references pet(id);
