@@ -7,7 +7,9 @@ import ru.itsjava.domains.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -46,4 +48,12 @@ public class UserJdbcImpl implements UserJdbc {
         User user=entityManager.find(User.class,id);
         entityManager.remove(user);
     }
+
+    @Override
+    public List<User> findAll() {
+        Query query = entityManager.createQuery("SELECT u FROM User u");
+        return query.getResultList();
+    }
+
+
 }

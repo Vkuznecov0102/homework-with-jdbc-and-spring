@@ -7,7 +7,9 @@ import ru.itsjava.domains.Pet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -45,5 +47,11 @@ public class PetJdbcImpl implements PetJdbc {
     public void deletePet(long id) {
        Pet pet=entityManager.find(Pet.class,id);
        entityManager.remove(pet);
+    }
+
+    @Override
+    public List<Pet> findAll() {
+        Query query = entityManager.createQuery("SELECT p FROM Pet p");
+        return query.getResultList();
     }
 }

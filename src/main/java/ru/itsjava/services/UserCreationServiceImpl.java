@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.h2.tools.Console;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.domains.Email;
 import ru.itsjava.domains.Pet;
 import ru.itsjava.domains.User;
@@ -35,12 +34,9 @@ public class UserCreationServiceImpl implements UserCreationService {
             emailService.insertEmail(email);
 
             System.out.println("Введите вид животного пользователя");
-            Pet pet = new Pet();
             String type = scanner.nextLine();
-            pet.setType(type);
             System.out.println("Введите кличку животного");
             String name = scanner.nextLine();
-            pet.setName(name);
             petService.insertPet(new Pet(type, name));
 
             System.out.println("Введите имя пользователя");
@@ -49,10 +45,6 @@ public class UserCreationServiceImpl implements UserCreationService {
             userService.insertUser(user);
             System.out.println("Пользователь успешно создан и добавлен!");
             count++;
-            if (count > 1) {
-                email.setId(user.getId() + 1L);
-                pet.setId(user.getId() + 1L);
-            }
             Console.main();
         }
 

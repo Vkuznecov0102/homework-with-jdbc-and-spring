@@ -3,6 +3,7 @@ package ru.itsjava.dao;
 import ru.itsjava.domains.Pet;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 public interface PetJdbc {
@@ -15,4 +16,6 @@ public interface PetJdbc {
     void updatePet(Pet pet);
 
     void deletePet(long id);
+
+    List<Pet> findAll();
 }

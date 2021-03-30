@@ -7,7 +7,9 @@ import ru.itsjava.domains.Email;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +52,7 @@ public class EmailJdbcImpl implements EmailJdbc {
 
     @Override
     public List<Email> findAll() {
-        return entityManager.createNativeQuery("select e.id,e.address from Email e").getResultList();
+        Query query = entityManager.createQuery("SELECT e FROM Email e");
+        return query.getResultList();
     }
 }

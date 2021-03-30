@@ -13,9 +13,7 @@ import java.sql.SQLException;
 public class Application {
     public static void main(String[] args) throws SQLException {
         var context = SpringApplication.run(Application.class);
-//        context.getBean(UserCreationService.class).userCreation();
+        context.getBean(UserCreationService.class).userCreation();
 //        Console.main(args);
-//        EmailJdbc emailJdbc = context.getBean(EmailJdbcImpl.class);
-//        System.out.println(emailJdbc.getEmailById(1L));
     }
 }
