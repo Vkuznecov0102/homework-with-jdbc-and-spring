@@ -1,7 +1,6 @@
 package ru.itsjava.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -11,48 +10,44 @@ import ru.itsjava.domains.Email;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
 public class EmailJdbcImpl implements EmailJdbc {
 
-    private final JdbcOperations jdbcOperations;
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
     public int countEmailByAddress(String address) {
-        String SELECT_QUERY = "select count(*) from email where address='" + address + "'";
-        return jdbcOperations.queryForObject(SELECT_QUERY, Integer.class);
+        String countQuery = "select count(*) from email where address=:address";
+        return namedParameterJdbcOperations.queryForObject(countQuery, Map.of("address", address), Integer.class);
     }
 
     @Override
     public Email getEmailById(long id) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
-        String GETBYID_QUERY = "select id,address from email where id= :id";
-        return namedParameterJdbcOperations.queryForObject(GETBYID_QUERY, params, new EmailMapper());
+        String getByIdQuery = "select id,address from email where id= :id";
+        return namedParameterJdbcOperations.queryForObject(getByIdQuery, Map.of("id", id), new EmailMapper());
     }
 
     @Override
     public void insertEmail(Email email) {
-        String INSERT_QUERY = "insert into email(address) values (?)";
-        jdbcOperations.update(INSERT_QUERY, email.getAddress());
+        String insertQuery = "insert into email(address) values (?)";
+        namedParameterJdbcOperations.getJdbcOperations().update(insertQuery, email.getAddress());
     }
 
     @Override
     public void updateEmail(Email email) {
-        String UPDATE_QUERY = "update email set address=:address where id=:id";
+        String updateQuery = "update email set address=:address where id=:id";
         SqlParameterSource params = new MapSqlParameterSource().addValue("id", email.getId()).addValue("address", email.getAddress());
-        namedParameterJdbcOperations.update(UPDATE_QUERY, params);
+        namedParameterJdbcOperations.update(updateQuery, params);
     }
 
     @Override
     public void deleteEmail(long id) {
-        String DELETE_QUERY = "delete from email where id = :id";
+        String deleteQuery = "delete from email where id = :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        int status = namedParameterJdbcOperations.update(DELETE_QUERY, namedParameters);
+        int status = namedParameterJdbcOperations.update(deleteQuery, namedParameters);
         if (status != 0) {
             System.out.println("Email data deleted for ID " + id);
         } else {

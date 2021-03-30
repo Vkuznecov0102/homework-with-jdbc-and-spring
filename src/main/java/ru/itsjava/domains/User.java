@@ -2,11 +2,9 @@ package ru.itsjava.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Data
-@NoArgsConstructor
 public class User {
     private long id;
     private String fio;
@@ -19,7 +17,4 @@ public class User {
         this.pet = pet;
     }
 
-    public User(String fio) {
-        this.fio = fio;
-    }
 }

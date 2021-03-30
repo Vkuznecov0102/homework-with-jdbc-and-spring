@@ -5,15 +5,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
-@Data
 @RequiredArgsConstructor
+@Data
 public class Pet {
     private long id;
-    private String type;
-    private String name;
+    private final String type;
+    private final String name;
 
-    public Pet(String type, String name) {
-        this.type = type;
-        this.name = name;
-    }
+
 }

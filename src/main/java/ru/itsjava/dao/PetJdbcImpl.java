@@ -1,7 +1,6 @@
 package ru.itsjava.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -18,27 +17,26 @@ import java.util.Map;
 @Repository
 public class PetJdbcImpl implements PetJdbc {
 
-    private final JdbcOperations jdbcOperations;
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
     public int countPetByType(String type) {
-        String SELECT_QUERY = "select count(*) from pet where type='" + type + "'";
-        return jdbcOperations.queryForObject(SELECT_QUERY, Integer.class);
+        String selectQuery = "select count(*) from pet where type=:type";
+        return namedParameterJdbcOperations.queryForObject(selectQuery, Map.of("type", type), Integer.class);
     }
 
     @Override
     public Pet getPetById(long id) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        String GETBYID_QUERY = "select id,type,name from pet where id= :id";
-        return namedParameterJdbcOperations.queryForObject(GETBYID_QUERY, params, new PetMapper());
+        String getByIdQuery = "select id,type,name from pet where id= :id";
+        return namedParameterJdbcOperations.queryForObject(getByIdQuery, params, new PetMapper());
     }
 
     @Override
     public void insertPet(Pet pet) {
-        String INSERT_QUERY = "insert into pet(type,name) values (?,?)";
-        jdbcOperations.update(INSERT_QUERY, pet.getType(), pet.getName());
+        String insertQuery = "insert into pet(type,name) values (?,?)";
+        namedParameterJdbcOperations.getJdbcOperations().update(insertQuery, pet.getType(), pet.getName());
     }
 
     @Override
@@ -58,9 +56,6 @@ public class PetJdbcImpl implements PetJdbc {
         } else {
             System.out.println("No Pet found with ID " + id);
         }
-
-//        SqlParameterSource params=new MapSqlParameterSource("id",id);
-//        namedParameterJdbcOperations.update(DELETE_QUERY, params);
     }
 
     private static class PetMapper implements RowMapper<Pet> {

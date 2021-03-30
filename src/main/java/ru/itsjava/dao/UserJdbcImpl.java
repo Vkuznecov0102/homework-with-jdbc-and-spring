@@ -1,7 +1,6 @@
 package ru.itsjava.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -13,34 +12,30 @@ import ru.itsjava.domains.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
 public class UserJdbcImpl implements UserJdbc {
 
-    private final JdbcOperations jdbcOperations;
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
     public int countUserByName(String fio) {
-        String SELECT_QUERY = "select count(*) from user where fio='" + fio + "'";
-        return jdbcOperations.queryForObject(SELECT_QUERY, Integer.class);
+        String selectQuery = "select count(*) from user where fio=:fio";
+        return namedParameterJdbcOperations.queryForObject(selectQuery, Map.of("fio", fio), Integer.class);
     }
 
     @Override
     public User getUserById(long id) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
-        String GETBYID_QUERY = "select user.id,user.fio,user.email_id,user.pet_id,email.id,email.address,pet.id,pet.type,pet.name from user,email,pet where user.id= :id";
-        return namedParameterJdbcOperations.queryForObject(GETBYID_QUERY, params, new UserMapper());
+        String getByIdQuery = "select user.id,user.fio,user.email_id,user.pet_id,email.id,email.address,pet.id,pet.type,pet.name from user,email,pet where user.id= :id";
+        return namedParameterJdbcOperations.queryForObject(getByIdQuery, Map.of("id", id), new UserMapper());
     }
 
     @Override
     public void insertUser(User user) {
         String INSERT_QUERY = "insert into user(fio,email_id,pet_id) values (?,?,?)";
-        jdbcOperations.update(INSERT_QUERY, user.getFio(), user.getMail().getId(), user.getPet().getId());
+        namedParameterJdbcOperations.getJdbcOperations().update(INSERT_QUERY, user.getFio(), user.getMail().getId(), user.getPet().getId());
     }
 
     @Override
