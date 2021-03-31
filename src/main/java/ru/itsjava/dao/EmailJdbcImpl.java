@@ -21,17 +21,17 @@ public class EmailJdbcImpl implements EmailJdbc {
 
     @Override
     public long countEmailByAddress(String address) {
-        return (long) entityManager.createQuery("select count(*) from Email e where address='"+address+"'").getSingleResult();
+        return (long) entityManager.createQuery("select count(*) from Email e where address='" + address + "'").getSingleResult();
     }
 
     @Override
     public Optional<Email> getEmailById(long id) {
-       return Optional.ofNullable(entityManager.find(Email.class,id));
+        return Optional.ofNullable(entityManager.find(Email.class, id));
     }
 
     @Override
     public void insertEmail(Email email) {
-        if(email.getId() == 0L){
+        if (email.getId() == 0L) {
             entityManager.persist(email);
         }
         entityManager.merge(email);
@@ -44,7 +44,7 @@ public class EmailJdbcImpl implements EmailJdbc {
 
     @Override
     public void deleteEmail(long id) {
-        Email email=entityManager.find(Email.class,id);
+        Email email = entityManager.find(Email.class, id);
         entityManager.remove(email);
     }
 

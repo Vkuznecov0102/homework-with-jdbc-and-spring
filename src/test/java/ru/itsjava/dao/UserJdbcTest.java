@@ -58,8 +58,8 @@ public class UserJdbcTest {
 
         objUser.setFio("Александров ЛО");
         userJdbc.updateUser(objUser);
-        assertEquals(1,userJdbc.countUserByName("Александров ЛО"));
-        assertEquals(0,userJdbc.countUserByName("Измайлов ЛО"));
+        assertEquals(1, userJdbc.countUserByName("Александров ЛО"));
+        assertEquals(0, userJdbc.countUserByName("Измайлов ЛО"));
 
     }
 

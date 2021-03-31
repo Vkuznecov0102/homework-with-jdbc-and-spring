@@ -22,17 +22,17 @@ public class UserJdbcImpl implements UserJdbc {
 
     @Override
     public long countUserByName(String fio) {
-        return (long) entityManager.createQuery("select count(*) from User u where fio='"+fio+"'").getSingleResult();
+        return (long) entityManager.createQuery("select count(*) from User u where fio='" + fio + "'").getSingleResult();
     }
 
     @Override
     public Optional<User> getUserById(long id) {
-        return Optional.ofNullable(entityManager.find(User.class,id));
+        return Optional.ofNullable(entityManager.find(User.class, id));
     }
 
     @Override
     public void insertUser(User user) {
-        if(user.getId()==0L){
+        if (user.getId() == 0L) {
             entityManager.persist(user);
         }
         entityManager.merge(user);
@@ -45,7 +45,7 @@ public class UserJdbcImpl implements UserJdbc {
 
     @Override
     public void deleteUser(long id) {
-        User user=entityManager.find(User.class,id);
+        User user = entityManager.find(User.class, id);
         entityManager.remove(user);
     }
 

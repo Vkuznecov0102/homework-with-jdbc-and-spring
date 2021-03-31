@@ -21,17 +21,17 @@ public class PetJdbcImpl implements PetJdbc {
 
     @Override
     public long countPetByType(String type) {
-        return (long) entityManager.createQuery("select count(*) from Pet p where type='"+type+"'").getSingleResult();
+        return (long) entityManager.createQuery("select count(*) from Pet p where type='" + type + "'").getSingleResult();
     }
 
     @Override
     public Optional<Pet> getPetById(long id) {
-        return Optional.ofNullable(entityManager.find(Pet.class,id));
+        return Optional.ofNullable(entityManager.find(Pet.class, id));
     }
 
     @Override
     public void insertPet(Pet pet) {
-        if(pet.getId()==0L){
+        if (pet.getId() == 0L) {
             entityManager.persist(pet);
         }
         entityManager.merge(pet);
@@ -44,8 +44,8 @@ public class PetJdbcImpl implements PetJdbc {
 
     @Override
     public void deletePet(long id) {
-       Pet pet=entityManager.find(Pet.class,id);
-       entityManager.remove(pet);
+        Pet pet = entityManager.find(Pet.class, id);
+        entityManager.remove(pet);
     }
 
     @Override

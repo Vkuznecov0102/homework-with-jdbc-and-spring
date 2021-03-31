@@ -10,14 +10,14 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="email")
+@Table(name = "email")
 public class Email {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="address")
+    @Column(name = "address")
     private String address;
 
     public Email(String address) {
