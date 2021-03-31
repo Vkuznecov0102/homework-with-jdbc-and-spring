@@ -2,11 +2,10 @@ package ru.itsjava.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.itsjava.dao.UserJdbc;
 import ru.itsjava.domains.User;
 
-import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private final UserJdbc userJdbc;
 
     @Override
-    public BigInteger countUserByName(String fio) {
+    public long countUserByName(String fio) {
         return userJdbc.countUserByName(fio);
     }
 
@@ -38,5 +37,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(long id) {
         userJdbc.deleteUser(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userJdbc.findAll();
     }
 }

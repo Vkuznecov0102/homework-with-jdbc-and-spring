@@ -8,7 +8,6 @@ import ru.itsjava.domains.Pet;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,8 @@ public class PetJdbcImpl implements PetJdbc {
     private final EntityManager entityManager;
 
     @Override
-    public BigInteger countPetByType(String type) {
-        return (BigInteger) entityManager.createNativeQuery("select count(*) from Pet p where type='"+type+"'").getSingleResult();
+    public long countPetByType(String type) {
+        return (long) entityManager.createQuery("select count(*) from Pet p where type='"+type+"'").getSingleResult();
     }
 
     @Override

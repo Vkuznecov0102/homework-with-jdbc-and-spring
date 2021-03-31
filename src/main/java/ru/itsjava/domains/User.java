@@ -27,14 +27,4 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="pet_id", referencedColumnName = "id")
     private Pet pet;
-
-    public User(String fio, Email mail, Pet pet) {
-        this.fio = fio;
-        this.mail = mail;
-        this.pet = pet;
-    }
-
-    public User(String fio) {
-        this.fio = fio;
-    }
 }

@@ -3,8 +3,6 @@ package ru.itsjava;
 import org.h2.tools.Console;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.itsjava.dao.EmailJdbc;
-import ru.itsjava.dao.EmailJdbcImpl;
 import ru.itsjava.services.*;
 
 import java.sql.SQLException;

@@ -21,8 +21,8 @@ public class UserJdbcImpl implements UserJdbc {
     private final EntityManager entityManager;
 
     @Override
-    public BigInteger countUserByName(String fio) {
-        return (BigInteger) entityManager.createNativeQuery("select count(*) from User u where fio='"+fio+"'").getSingleResult();
+    public long countUserByName(String fio) {
+        return (long) entityManager.createQuery("select count(*) from User u where fio='"+fio+"'").getSingleResult();
     }
 
     @Override

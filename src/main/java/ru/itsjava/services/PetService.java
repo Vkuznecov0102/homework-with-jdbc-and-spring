@@ -2,11 +2,11 @@ package ru.itsjava.services;
 
 import ru.itsjava.domains.Pet;
 
-import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 public interface PetService {
-    BigInteger countPetByType(String type);
+    long countPetByType(String type);
 
     Optional<Pet> getPetById(long id);
 
@@ -15,4 +15,6 @@ public interface PetService {
     void updatePet(Pet pet);
 
     void deletePet(long id);
+
+    List<Pet> findAll();
 }
