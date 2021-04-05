@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Import(EmailJdbcImpl.class)
-public class EmailJdbcTest {
+public class EmailJdbcImplTest {
 
     @Autowired
     private EmailJdbc emailJdbc;

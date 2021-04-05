@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Import({UserJdbcImpl.class, PetJdbcImpl.class, EmailJdbcImpl.class})
-public class UserJdbcTest {
+public class UserJdbcImplTest {
 
     @Autowired
     private UserJdbc userJdbc;
