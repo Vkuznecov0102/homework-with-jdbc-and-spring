@@ -2,7 +2,7 @@ package ru.itsjava.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.itsjava.dao.UserJdbc;
+import ru.itsjava.dao.UserRepository;
 import ru.itsjava.domains.User;
 
 import java.util.List;
@@ -12,35 +12,35 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserJdbc userJdbc;
+    private final UserRepository userRepository;
 
     @Override
     public long countUserByName(String fio) {
-        return userJdbc.countUserByName(fio);
+        return userRepository.countUserByName(fio);
     }
 
     @Override
     public Optional<User> getUserById(long id) {
-        return userJdbc.getUserById(id);
+        return userRepository.getUserById(id);
     }
 
     @Override
     public void insertUser(User user) {
-        userJdbc.insertUser(user);
+        userRepository.insertUser(user);
     }
 
     @Override
     public void updateUser(User user) {
-        userJdbc.updateUser(user);
+        userRepository.updateUser(user);
     }
 
     @Override
     public void deleteUser(long id) {
-        userJdbc.deleteUser(id);
+        userRepository.deleteUser(id);
     }
 
     @Override
     public List<User> findAll() {
-        return userJdbc.findAll();
+        return userRepository.findAll();
     }
 }

@@ -2,7 +2,6 @@ package ru.itsjava.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.h2.tools.Console;
 import org.springframework.stereotype.Service;
 import ru.itsjava.domains.Email;
 import ru.itsjava.domains.Pet;
@@ -15,9 +14,7 @@ import java.util.Scanner;
 public class UserCreationServiceImpl implements UserCreationService {
 
     private final EmailService emailService;
-
     private final PetService petService;
-
     private final UserService userService;
 
     @SneakyThrows
@@ -25,8 +22,8 @@ public class UserCreationServiceImpl implements UserCreationService {
     public void userCreation() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            int count = 0;
+        boolean isExit = true;
+        while (isExit) {
             System.out.println("Добро пожаловать!Для добавления пользователя введите e-mail");
 
             String address = scanner.nextLine();
@@ -41,11 +38,14 @@ public class UserCreationServiceImpl implements UserCreationService {
 
             System.out.println("Введите имя пользователя");
             String userName = scanner.nextLine();
-            User user = new User(5L, userName, new Email(5L, address), new Pet(5L, type, name));
+            User user = new User(0L, userName, new Email(0L, address), new Pet(0L, type, name));
             userService.insertUser(user);
             System.out.println("Пользователь успешно создан и добавлен!");
-            count++;
-            Console.main();
+
+            System.out.println("Если хотите закончить нажмите ДА");
+            if (scanner.nextLine().strip().equalsIgnoreCase("ДА")) {
+                isExit = false;
+            }
         }
 
     }

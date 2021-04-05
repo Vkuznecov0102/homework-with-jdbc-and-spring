@@ -5,7 +5,7 @@ import ru.itsjava.domains.Pet;
 import java.util.List;
 import java.util.Optional;
 
-public interface PetJdbc {
+public interface PetRepository {
     long countPetByType(String type);
 
     Optional<Pet> getPetById(long id);

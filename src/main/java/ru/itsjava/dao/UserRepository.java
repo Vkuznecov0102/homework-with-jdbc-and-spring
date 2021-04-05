@@ -5,7 +5,7 @@ import ru.itsjava.domains.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserJdbc {
+public interface UserRepository {
     long countUserByName(String fio);
 
     Optional<User> getUserById(long id);

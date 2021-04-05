@@ -5,7 +5,7 @@ import ru.itsjava.domains.Email;
 import java.util.List;
 import java.util.Optional;
 
-public interface EmailJdbc {
+public interface EmailRepository {
     long countEmailByAddress(String address);
 
     Optional<Email> getEmailById(long id);
