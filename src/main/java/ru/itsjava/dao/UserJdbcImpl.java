@@ -34,22 +34,22 @@ public class UserJdbcImpl implements UserJdbc {
 
     @Override
     public void insertUser(User user) {
-        String INSERT_QUERY = "insert into user(fio,email_id,pet_id) values (?,?,?)";
-        namedParameterJdbcOperations.getJdbcOperations().update(INSERT_QUERY, user.getFio(), user.getMail().getId(), user.getPet().getId());
+        String insertQuery = "insert into user(fio,email_id,pet_id) values (?,?,?)";
+        namedParameterJdbcOperations.getJdbcOperations().update(insertQuery, user.getFio(), user.getMail().getId(), user.getPet().getId());
     }
 
     @Override
     public void updateUser(User user) {
-        String UPDATE_QUERY = "update user set fio = :fio where id = :id";
+        String updateQuery = "update user set fio = :fio where id = :id";
         SqlParameterSource params = new MapSqlParameterSource().addValue("fio", user.getFio()).addValue("id", user.getId());
-        namedParameterJdbcOperations.update(UPDATE_QUERY, params);
+        namedParameterJdbcOperations.update(updateQuery, params);
     }
 
     @Override
     public void deleteUser(long id) {
-        String DELETE_QUERY = "delete from user where id = :id";
+        String deleteQuery = "delete from user where id = :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        int status = namedParameterJdbcOperations.update(DELETE_QUERY, namedParameters);
+        int status = namedParameterJdbcOperations.update(deleteQuery, namedParameters);
         if (status != 0) {
             System.out.println("User data deleted with ID " + id);
         } else {

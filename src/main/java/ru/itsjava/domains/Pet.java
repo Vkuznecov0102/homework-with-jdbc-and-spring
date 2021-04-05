@@ -11,6 +11,4 @@ public class Pet {
     private long id;
     private final String type;
     private final String name;
-
-
 }

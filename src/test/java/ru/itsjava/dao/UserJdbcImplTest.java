@@ -24,20 +24,24 @@ public class UserJdbcImplTest {
     @Autowired
     private PetJdbc petJdbc;
 
-    Pet pet = new Pet(1L, "Капибара", "Чучундра");
-    Email mail = new Email(1L, "leoleo@gmail.com");
-    User user = new User(1L, "Измайлов ЛО",
+    private final Pet pet = new Pet(1L, "Капибара", "Чучундра");
+    private final Email mail = new Email(1L, "leoleo@gmail.com");
+    private final User user = new User(1L, "Измайлов ЛО",
             new Email(mail.getId(), mail.getAddress()),
             new Pet(pet.getId(), pet.getType(), pet.getName()));
 
     @Test
     public void shouldHaveCorrectInsert() {
         petJdbc.insertPet(pet);
-        assertEquals(pet, petJdbc.getPetById(1L));
         emailJdbc.insertEmail(mail);
-        assertEquals(mail, emailJdbc.getEmailById(1L));
         userJdbc.insertUser(user);
-        assertEquals(user, userJdbc.getUserById(1L));
+
+        assertAll(
+                () -> assertEquals(pet, petJdbc.getPetById(1L)),
+                () -> assertEquals(mail, emailJdbc.getEmailById(1L)),
+                () -> assertEquals(user, userJdbc.getUserById(1L))
+        );
+
     }
 
     @Test
@@ -47,8 +51,8 @@ public class UserJdbcImplTest {
         userJdbc.insertUser(user);
         user.setFio("Александров ЛО");
         userJdbc.updateUser(user);
-        assertAll(() ->
-                        assertEquals(1, userJdbc.countUserByName("Александров ЛО")),
+        assertAll(
+                () -> assertEquals(1, userJdbc.countUserByName("Александров ЛО")),
                 () -> assertEquals(0, userJdbc.countUserByName("Измайлов ЛО")
                 ));
     }
@@ -58,8 +62,10 @@ public class UserJdbcImplTest {
         petJdbc.insertPet(pet);
         emailJdbc.insertEmail(mail);
         userJdbc.insertUser(user);
-        assertEquals(user, userJdbc.getUserById(1L));
-        assertNotNull(userJdbc.getUserById(1L));
+        assertAll(
+                () -> assertEquals(user, userJdbc.getUserById(1L)),
+                () -> assertNotNull(userJdbc.getUserById(1L))
+        );
         userJdbc.deleteUser(1L);
         assertThrows(EmptyResultDataAccessException.class, () -> userJdbc.getUserById(1L));
     }

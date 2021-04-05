@@ -16,7 +16,7 @@ public class PetJdbcImplTest {
     @Autowired
     private PetJdbc petJdbc;
 
-    Pet pet = new Pet(1L, "Капибара", "Чучундра");
+    private final Pet pet = new Pet(1L, "Капибара", "Чучундра");
 
     @Test
     public void shouldHaveCorrectInsert() {
@@ -40,8 +40,10 @@ public class PetJdbcImplTest {
     @Test
     public void shouldHaveCorrectDelete() {
         petJdbc.insertPet(pet);
-        assertEquals(pet, petJdbc.getPetById(1L));
-        assertNotNull(petJdbc.getPetById(1L));
+        assertAll(
+                () -> assertEquals(pet, petJdbc.getPetById(1L)),
+                () -> assertNotNull(petJdbc.getPetById(1L))
+        );
         petJdbc.deletePet(1L);
         assertThrows(EmptyResultDataAccessException.class, () -> petJdbc.getPetById(1L));
     }

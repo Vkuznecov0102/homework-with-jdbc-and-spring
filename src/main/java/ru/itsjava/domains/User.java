@@ -10,11 +10,4 @@ public class User {
     private String fio;
     private Email mail;
     private Pet pet;
-
-    public User(String fio, Email mail, Pet pet) {
-        this.fio = fio;
-        this.mail = mail;
-        this.pet = pet;
-    }
-
 }

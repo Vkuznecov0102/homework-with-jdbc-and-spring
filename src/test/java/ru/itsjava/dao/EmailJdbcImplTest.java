@@ -16,7 +16,7 @@ public class EmailJdbcImplTest {
     @Autowired
     private EmailJdbc emailJdbc;
 
-    Email email = new Email(1L, "alexandro@protonmail.com");
+    private final Email email = new Email(1L, "alexandro@protonmail.com");
 
 
     @Test
@@ -41,8 +41,10 @@ public class EmailJdbcImplTest {
     @Test
     public void shouldHaveCorrectDelete() {
         emailJdbc.insertEmail(email);
-        assertEquals(email, emailJdbc.getEmailById(1L));
-        assertNotNull(emailJdbc.getEmailById(1L));
+        assertAll(
+                () -> assertEquals(email, emailJdbc.getEmailById(1L)),
+                () -> assertNotNull(emailJdbc.getEmailById(1L))
+        );
         emailJdbc.deleteEmail(1L);
         assertThrows(EmptyResultDataAccessException.class, () -> emailJdbc.getEmailById(1L));
     }

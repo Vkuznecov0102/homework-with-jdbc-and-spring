@@ -41,16 +41,16 @@ public class PetJdbcImpl implements PetJdbc {
 
     @Override
     public void updatePet(Pet pet) {
-        String UPDATE_QUERY = "update pet set type = :type, name = :name where id = :id";
+        String updateQuery = "update pet set type = :type, name = :name where id = :id";
         SqlParameterSource params = new MapSqlParameterSource().addValue("id", pet.getId()).addValue("type", pet.getType()).addValue("name", pet.getName());
-        namedParameterJdbcOperations.update(UPDATE_QUERY, params);
+        namedParameterJdbcOperations.update(updateQuery, params);
     }
 
     @Override
     public void deletePet(long id) {
-        String DELETE_QUERY = "delete from pet where id = :id";
+        String deleteQuery = "delete from pet where id = :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        int status = namedParameterJdbcOperations.update(DELETE_QUERY, namedParameters);
+        int status = namedParameterJdbcOperations.update(deleteQuery, namedParameters);
         if (status != 0) {
             System.out.println("Pet data deleted for ID " + id);
         } else {
